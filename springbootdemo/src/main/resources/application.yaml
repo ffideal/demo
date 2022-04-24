@@ -1,0 +1,29 @@
+user:
+  userName: zhansan
+  age: 18
+  gender: 0
+  phone: 12345678900
+  # interest: [足球,篮球]
+  interest:
+    - 足球
+    - 篮球
+  # score: {C: 100,Java: 100}
+  score:
+  C: 100
+  Java: 100
+  all-pets: {C: 000}
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  # 添加静态访问前缀，以防止过滤器过滤，如果使用了自定义访问路径，那么欢迎页是进不来的，因为这是在底层写死的
+#     static-path-pattern: /res/**
+
+  web:
+    resources:
+       ## 将静态资源放在haha下
+      static-locations: [classpath:/haha/]
+      # 开启静态资源
+      add-mappings: true
+
