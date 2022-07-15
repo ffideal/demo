@@ -1,5 +1,8 @@
 package com.ffideal.springboot_advance_demo.bean;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Department {
 	
 	private Integer id;

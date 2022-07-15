@@ -1,8 +1,11 @@
 package com.ffideal.springboot_advance_demo.service;
 
+import com.ffideal.springboot_advance_demo.bean.Department;
 import com.ffideal.springboot_advance_demo.bean.Employee;
 import com.ffideal.springboot_advance_demo.mapper.EmployeeMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.*;
@@ -11,6 +14,8 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Map;
+
 @CacheConfig(cacheManager = "empCacheManager")
 @Slf4j
 @Service
@@ -67,4 +72,18 @@ public class EmployeeService {
         log.info("======>通过lastName获取员工数据：" + emp);
         return emp;
     }
+
+    @RabbitListener(queues = "ffideal")
+    public void receive(Employee employee) {
+        log.info("================>"+employee);
+    }
+
+    @RabbitListener(queues = "ffideal.news")
+    public void receiveMessage(Message message) {
+//        log.info("================>"+message.getBody());
+//        log.info("================>"+message.getMessageProperties());
+        System.out.println("---------------->" + message.getBody());
+        System.out.println("---------------->"+message.getMessageProperties());
+    }
+
 }

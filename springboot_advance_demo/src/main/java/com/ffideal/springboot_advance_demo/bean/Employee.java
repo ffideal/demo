@@ -1,7 +1,12 @@
 package com.ffideal.springboot_advance_demo.bean;
 
+
+
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 
+@Component
 public class Employee implements  Serializable {
 	
 	private Integer id;
