@@ -77,7 +77,4 @@ public class EmployeeTest {
         Employee emp = employeeMapper.getEmpById(1);
         System.out.println(emp);
     }
-
-
-
 }

@@ -2,10 +2,12 @@ package com.ffideal.springboot_advance_demo.bean;
 
 
 
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
+@Document(indexName = "ffideal")
 @Component
 public class Employee implements  Serializable {
 	

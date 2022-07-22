@@ -1,15 +1,11 @@
 package com.ffideal.springboot_advance_demo.config;
 
-import com.ffideal.springboot_advance_demo.bean.Department;
-import com.ffideal.springboot_advance_demo.bean.Employee;
-import com.ffideal.springboot_advance_demo.mapper.DepartmentMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -67,15 +63,4 @@ public class MyRabbitMQConfig implements RabbitListenerConfigurer {
     public MappingJackson2MessageConverter mappingJackson2MessageConverter(){
         return  new MappingJackson2MessageConverter();
     }
-
-
-    /**
-     * 添加这个方法进行序列化解析
-     *
-     * */
-//    @Bean
-//    public MessageConverter jsonMessageConverter(Employee e) {
-//        return new Jackson2JsonMessageConverter(String.valueOf(e));
-//    }
-
 }

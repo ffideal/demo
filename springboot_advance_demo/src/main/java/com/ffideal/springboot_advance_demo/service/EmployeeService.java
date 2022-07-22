@@ -1,7 +1,9 @@
 package com.ffideal.springboot_advance_demo.service;
 
+import co.elastic.clients.elasticsearch.ml.Page;
 import com.ffideal.springboot_advance_demo.bean.Department;
 import com.ffideal.springboot_advance_demo.bean.Employee;
+import com.ffideal.springboot_advance_demo.mapper.EmployeeElasticSearchDao;
 import com.ffideal.springboot_advance_demo.mapper.EmployeeMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -11,10 +13,11 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.*;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 @CacheConfig(cacheManager = "empCacheManager")
 @Slf4j
@@ -24,6 +27,8 @@ public class EmployeeService {
     @Autowired
     public EmployeeMapper employeeMapper;
 
+    @Autowired
+    public EmployeeElasticSearchDao searchDao;
 
     /**
      * @Cacheable 将方法的运行结果进行缓存，以后再要相同的数据，直接从缓存中获取，不用调用方法
@@ -86,4 +91,54 @@ public class EmployeeService {
         System.out.println("---------------->"+message.getMessageProperties());
     }
 
+    public void saveEmployee(Employee employee) {
+        searchDao.save(employee);
+    }
+
+    public void updateEmployee(Employee employee) {
+        searchDao.save(employee);
+    }
+
+    public Employee getEmployee(Integer id) {
+        Optional<Employee> emps = searchDao.findById(id);
+        if (emps.isPresent()) {
+            log.info("===========================>" + emps);
+            return emps.get();
+        }
+        return null;
+    }
+
+    public void deleteEmoloyee(Integer id) {
+        searchDao.deleteById(id);
+        log.info("===========================> 删除成功" );
+    }
+
+    public Iterable<Employee> getAll() {
+        return searchDao.findAll();
+    }
+
+    public List<Employee> getEmployeeByName(String lastName) {
+        return searchDao.findBylastName(lastName);
+    }
+
+    public List<Employee> listByNameAndId(String lastName, Integer id) {
+        return searchDao.findBylastNameAndId(lastName, id);
+    }
+    public List<Employee> listByNameAndIdAndGender(String lastName, Integer id, Integer gender) {
+        return searchDao.findBylastNameAndIdAndGender(lastName, id, gender);
+    }
+
+    // 降序则为findByOrderByIdDesc
+    public List<Employee> listOrderByIdAscService() {
+        return searchDao.findByOrderByIdAsc();
+    }
+
+    public Page getPage(Integer pageNum, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        return (Page) searchDao.findAll(pageable);
+    }
+
+    public List<Employee> getListGreaterThanId(Integer id) {
+        return searchDao.findByIdGreaterThan(id);
+    }
 }
