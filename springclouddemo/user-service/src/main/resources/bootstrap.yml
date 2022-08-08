@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: userservice   #微服务名称
+  profiles:
+    active: dev #开发环境
+  cloud:
+    nacos:
+      server-addr: localhost:8848 #配置nacos端口
+      config:
+        file-extension: yaml  #后缀名
+        shared-configs: # 多微服务间共享的配置列表
+          - dataId: common.yaml # 要共享的配置文件id
+
